@@ -1,36 +1,32 @@
 #include <iostream>
-using namespace std; 
-typedef long long ll; 
+#include <vector> 
+using namespace std;
+typedef long long ll;
 
 constexpr int mod = 1e9 + 7; 
-constexpr int MAX = 1005; 
-char str[MAX]; 
-ll dp[2][MAX]; 
+char str[1005]; 
 
 int main() {
     ios::sync_with_stdio(false);
-    cin.tie(nullptr); 
+    cin.tie(nullptr);
 
-    int n;
+    int n; 
     cin >> n; 
 
-    dp[1][0] = 1; 
+    vector<ll> dp(n + 1); 
+    dp[1] = 1; 
 
-    bool flag = 0;
     for(int i = 0; i < n; ++i) {
         cin >> str; 
+        
         for(int j = 0; str[j]; ++j) {
-            dp[flag][j] = 0; 
-
-            if(str[j] == '.') {
-                if(j - 1 >= 0) dp[flag][j] += dp[flag][j - 1]; 
-                dp[flag][j] += dp[flag ^ 1][j]; 
-                if(dp[flag][j] >= mod) dp[flag][j] -= mod; 
+            if(str[j] != '*') {
+                dp[j + 1] = (dp[j + 1] + dp[j]) % mod; 
             }
+            else dp[j + 1] = 0; 
         }
-        flag ^= 1; 
     }
 
-    cout << dp[flag ^ 1][n - 1] << endl; 
+    cout << dp[n] << endl; 
     return 0; 
 }
