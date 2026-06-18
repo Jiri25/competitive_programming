@@ -1,25 +1,23 @@
 #include <iostream>
+#include <vector>
 #include <climits> 
 using namespace std;
-typedef long long ll; 
-
-constexpr int MAX_PRICE = 100005;
-constexpr int MAX_N = 1005; 
-ll dp[MAX_PRICE]; 
-int price[MAX_N]; 
-int page[MAX_N]; 
+typedef long long ll;
 
 int main() {
     ios::sync_with_stdio(false);
-    cin.tie(nullptr); 
+    cin.tie(nullptr);
 
     int n, x; 
     cin >> n >> x; 
 
-    for(int i = 0; i < n; ++i) cin >> price[i];
+    vector<int> price(n); 
+    for(int i = 0; i < n; ++i) cin >> price[i]; 
 
+    vector<int> page(n); 
     for(int i = 0; i < n; ++i) cin >> page[i]; 
 
+    vector<ll> dp(x + 1); 
     for(int i = 0; i < n; ++i) {
         for(int j = x; j >= price[i]; --j) {
             dp[j] = max(dp[j], dp[j - price[i]] + page[i]); 
