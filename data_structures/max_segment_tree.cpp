@@ -46,7 +46,7 @@ public:
         }
     }
 
-    //O(log N)
+    //O(log N) {from, to(inclusive)}  
     int range_query(int from, int to) const {
         from += padded_size;
         to += padded_size; 
