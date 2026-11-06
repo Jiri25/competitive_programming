@@ -9,29 +9,29 @@ int main() {
 
     int a, b; 
     cin >> a >> b; 
+    if(a > b) swap(a, b);  
 
-    //dp[i][j] : min number of cuts to transform into squares
-    vector<vector<int>> dp(a + 1, vector<int>(b + 1, 1e9)); 
+    vector<vector<int>> mem(a + 1, vector<int>(b + 1)); 
 
     for(int i = 1; i <= a; ++i) {
         for(int j = 1; j <= b; ++j) {
-            if(i == j) {
-                dp[i][j] = 0; 
-                continue; 
-            }
+            if(i > j) 
+                mem[i][j] = mem[j][i]; 
 
-            //vertical cut
-            for(int cut = 1; cut <= i / 2; ++cut) {
-                dp[i][j] = min(dp[i][j], 1 + dp[i - cut][j] + dp[cut][j]); 
-            }
+            else if(i < j) {
+                mem[i][j] = 1e9; 
 
-            //horizontal cut 
-            for(int cut = 1; cut <= j / 2; ++cut) {
-                dp[i][j] = min(dp[i][j], 1 + dp[i][j - cut] + dp[i][cut]); 
+                for(int x = 1; x <= i / 2; ++x) {
+                    mem[i][j] = min(mem[i][j], 1 + mem[i - x][j] + mem[x][j]); 
+                }
+
+                for(int x = 1; x <= j / 2; ++x) {
+                    mem[i][j] = min(mem[i][j], 1 + mem[i][j - x] + mem[i][x]); 
+                }
             }
         }
     }
 
-    cout << dp[a][b] << endl; 
+    cout << mem[a][b] << endl; 
     return 0; 
 }
